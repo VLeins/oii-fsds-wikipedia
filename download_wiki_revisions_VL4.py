@@ -64,8 +64,8 @@ def main(page: str, limit: int, data_dir: Path, folders: str, update:str): # dow
     Organizes the revisions into a folder structure like
     <page_name>/<year>/<month>/<revision_id>.xml
     """
-    print(folders)
-    print(update)
+    print(f"count_folders = {folders}")
+    print(f"print_folders = {update}")
     if update == "True":
         print(f"Downloading {limit} revisions of {page} to {data_dir}")
         raw_revisions = download_page_w_revisions(page, limit=limit)
@@ -79,7 +79,7 @@ def main(page: str, limit: int, data_dir: Path, folders: str, update:str): # dow
                 revision_path.parent.mkdir(parents=True, exist_ok=True)
             revision_path.write_text(wiki_revision)
     
-    print(f"Done! {count_revisions(data_dir/page, folders)} revisions downloaded! {folders} ") # You should call count_revisions() here and print the number of revisions
+    print(f"Done! {count_revisions(data_dir/page, folders)} revisions downloaded!") # You should call count_revisions() here and print the number of revisions
                    # You should also pass an 'update' argument so that you can decide whether
                    # to update and refresh or whether to simply count the revisions.   
 
