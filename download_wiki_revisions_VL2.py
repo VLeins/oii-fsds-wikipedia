@@ -64,6 +64,7 @@ def main(page: str, limit: int, data_dir: Path, folders: bool): # download speci
     Organizes the revisions into a folder structure like
     <page_name>/<year>/<month>/<revision_id>.xml
     """
+    print(folders)
     print(f"Downloading {limit} revisions of {page} to {data_dir}")
     raw_revisions = download_page_w_revisions(page, limit=limit)
     validate_page(page, page_xml=raw_revisions)
@@ -76,7 +77,7 @@ def main(page: str, limit: int, data_dir: Path, folders: bool): # download speci
             revision_path.parent.mkdir(parents=True, exist_ok=True)
         revision_path.write_text(wiki_revision)
     
-    print(f"Done! {count_revisions(data_dir/page, folders)} revisions downloaded! {folders}") # You should call count_revisions() here and print the number of revisions
+    print(f"Done! {count_revisions(data_dir/page, folders)} revisions downloaded! {folders} ") # You should call count_revisions() here and print the number of revisions
                    # You should also pass an 'update' argument so that you can decide whether
                    # to update and refresh or whether to simply count the revisions.   
 
@@ -90,10 +91,8 @@ def count_revisions(path_to_subfolder, folders): # make in progress
         item_path = os.path.join(path_to_subfolder, item)
         
         if os.path.isdir(item_path):
-                if folders==True:
+                if folders=="True":
                     count += 1
-                else:
-                    continue
                 count += count_revisions(item_path, folders)  # Recursive call for subdirectories
         else:
             count += 1  # Increment count for files
@@ -130,6 +129,6 @@ if __name__ == "__main__": # only run if file is run directly, if imported file 
         default=10,
         help="Number of revisions to download",
     )
-    parser.add_argument("count_folders", type=bool, help="Should count_revisions also count folders?")
+    parser.add_argument("--count_folders", type=str, help="Should count_revisions also count folders?")
     args = parser.parse_args()
     main(page=args.page, limit=args.limit, folders=args.count_folders, data_dir=DATA_DIR)

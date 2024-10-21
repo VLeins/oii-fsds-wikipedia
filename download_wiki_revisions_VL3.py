@@ -58,25 +58,25 @@ def find_yearmonth(revision: str) -> str: # extract year and month from revision
     return extract_yearmonth(find_timestamp(revision))
 
 
-def main(page: str, limit: int, data_dir: Path, folders: bool): # download specific page, validate page & save each revision in a folder structure based on year & month
+def main(page: str, limit: int, data_dir: Path, folders: bool, update:bool): # download specific page, validate page & save each revision in a folder structure based on year & month
     """
     Downloads the main page (with revisions) for the given page title.
     Organizes the revisions into a folder structure like
     <page_name>/<year>/<month>/<revision_id>.xml
     """
-    print(f"Downloading {limit} revisions of {page} to {data_dir}")
-    raw_revisions = download_page_w_revisions(page, limit=limit)
-    validate_page(page, page_xml=raw_revisions)
-    print("Downloaded revisions. Parsing and saving...")
-    for wiki_revision in tqdm(parse_mediawiki_revisions(raw_revisions), total=limit):
-        revision_path = construct_path(
-            wiki_revision=wiki_revision, page_name=page, save_dir=data_dir
-        )
-        if not revision_path.exists():
-            revision_path.parent.mkdir(parents=True, exist_ok=True)
-        revision_path.write_text(wiki_revision)
+    if update == True:
+        print(f"Downloading {limit} revisions of {page} to {data_dir}")
+        raw_revisions = download_page_w_revisions(page, limit=limit)
+        validate_page(page, page_xml=raw_revisions)
+        print("Downloaded revisions. Parsing and saving...")
+        for wiki_revision in tqdm(parse_mediawiki_revisions(raw_revisions), total=limit):
+            revision_path = construct_path(
+                 wiki_revision=wiki_revision, page_name=page, save_dir=data_dir)
+            if not revision_path.exists():
+                revision_path.parent.mkdir(parents=True, exist_ok=True)
+            revision_path.write_text(wiki_revision)
     
-    print(f"Done! {count_revisions(data_dir/page, folders)} revisions downloaded! {folders}") # You should call count_revisions() here and print the number of revisions
+    print(f"Done! {count_revisions(data_dir/page, folders)} revisions downloaded!") # You should call count_revisions() here and print the number of revisions
                    # You should also pass an 'update' argument so that you can decide whether
                    # to update and refresh or whether to simply count the revisions.   
 
