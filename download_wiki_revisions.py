@@ -34,15 +34,15 @@ def download_page_w_revisions(page_title: str) -> str:
     
     # Download with progress
     content = []
-    for data in response.iter_content(chunk_size=8192):
+    for data in response.iter_content(chunk_size=8192): # download pieces in chunks
         content.append(data)
-        progress.update(len(data))
+        progress.update(len(data)) # updates progress bar
     
-    progress.close()
+    progress.close() # close progress bar
     
-    return b''.join(content).decode('utf-8')
+    return b''.join(content).decode('utf-8') #combine a list of byte chunks into a single byte string & decode that byte string into a human-readable string --> however output is xml
 
-def parse_mediawiki_revisions(xml_content):
+def parse_mediawiki_revisions(xml_content): # find all revisions and yield them once at a time
     soup = BeautifulSoup(xml_content, "lxml-xml")
     for revision in soup.find_all("revision"):
         yield str(revision)
