@@ -132,6 +132,5 @@ if __name__ == "__main__": # only run if file is run directly, if imported file 
     )
     parser.add_argument("count_folders", type=bool, help="Should count_revisions also count folders?")
     parser.add_argument("update", type=bool, help="decide if want to update or only count files")
-
     args = parser.parse_args()
     main(page=args.page, limit=args.limit, folders=args.count_folders, update=args.update, data_dir=DATA_DIR)
