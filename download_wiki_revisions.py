@@ -7,6 +7,7 @@ from tqdm import tqdm
 
 DATA_DIR = Path("data")
 
+# get full history of wikipedia page
 def download_page_w_revisions(page_title: str) -> str:
     """Downloads complete revision history of a page using Special:Export with progress bar."""
     url = f"https://en.wikipedia.org/wiki/Special:Export/{page_title}"

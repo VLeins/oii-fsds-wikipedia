@@ -142,8 +142,8 @@ if __name__ == "__main__":
         help="Number of files to process in each batch",
     )
     parser.add_argument(
-        "--include-text",
-        action="store_true",
+        "--include-text", # optional argument because name starts with --
+        action="store_true", # set True if present
         help="Include full text content in the DataFrame (significantly increases file size)",
     )
     args = parser.parse_args()
